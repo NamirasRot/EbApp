@@ -15,7 +15,6 @@ type Knowledge struct {
 }
 
 var knowledges = []Knowledge{}
-var idKnowlenge int
 
 func main() {
 	r := mux.NewRouter()
