@@ -35,7 +35,7 @@ spec:
     - metadata:
         name: database-disk
       spec:
-        accessModes: ["ReadWrteOnce"]
+        accessModes: ["ReadWriteOnce"]
         resources:
           requests:
             storage: 5Gi
