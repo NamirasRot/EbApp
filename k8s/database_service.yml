@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: database-service
+  name: database-app
   namespace: database-namespace
   labels:
-    app: database-service
+    app: database-app
 spec:
   selector:
-    app: database-service
+    app: database-app
   ports:
   - protocol: TCP
     port: 1111

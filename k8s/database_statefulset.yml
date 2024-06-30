@@ -4,20 +4,20 @@ metadata:
   name: 
   namespace: database-namespace
   labels:
-    app: database-stateful
+    app: database-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: database-stateful
-  serviceName: database-service
+      app: database-app
+  serviceName: database-app
   template:
     metadata:
       labels:
-        app: database-stateful
+        app: database-app
     spec:
       containers:
-      - name: database-stateful
+      - name: database-app
         image: postgres
         volumeMounts:
           - name: database-disk
