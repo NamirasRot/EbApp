@@ -17,8 +17,8 @@ spec:
         app: database-stateful
     spec:
       containers:
-      - name: database-container
-        image: postgres:16.3
+      - name: database-stateful
+        image: postgres
         volumeMounts:
           - name: database-disk
             mountPath: /var/lib/postgresql/data
