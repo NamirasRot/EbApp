@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: database-statefulset
+  name: 
   namespace: database-namespace
   labels:
-    app: database
+    app: database-stateful
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: database-pod
+      app: database-stateful
   serviceName: database-service
   template:
     metadata:
       labels:
-        app: database-pod
+        app: database-stateful
     spec:
       containers:
       - name: database-container
