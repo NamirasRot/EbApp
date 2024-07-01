@@ -2,10 +2,14 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
+
 	"net/http"
 
 	"github.com/gorilla/mux"
+
+	"database/sql"
 )
 
 type Knowledge struct {
@@ -17,7 +21,10 @@ type Knowledge struct {
 var knowledges = []Knowledge{}
 
 func main() {
+	// Init the interface for ingress
 	r := mux.NewRouter()
+
+	// Init the routes
 	knowledgeR := r.PathPrefix("/knowledge").Subrouter()
 	knowledgeR.Path("").Methods(http.MethodGet).HandlerFunc(getAllKnowledges)
 	knowledgeR.Path("").Methods(http.MethodPost).HandlerFunc(createKnowledge)
@@ -25,6 +32,14 @@ func main() {
 	knowledgeR.Path("/{id}").Methods(http.MethodPut).HandlerFunc(changeKnowledge)
 	knowledgeR.Path("/{id}").Methods(http.MethodDelete).HandlerFunc(deleteKnowledge)
 
+	// Get the variables for DB connect
+	user := flag.String("user", "postgres", "variable for define userName db")
+	password := flag.String("password", "password", "variable for define userName db")
+	dbname := flag.String("dbname", "dbname", "variable for define userName db")
+	sslmode := flag.String("sslmode", "5432", "variable for define userName db")
+	// Init DB connection
+	initDB(user, password, dbname, sslmode)
+	// Start it!
 	fmt.Println("Greetings! Start listening")
 	fmt.Println(http.ListenAndServe(":8080", r))
 }
@@ -126,4 +141,22 @@ func deleteKnowledge(w http.ResponseWriter, r *http.Request) {
 
 	knowledges = append(knowledges[:index], knowledges[index+1:]...)
 	w.WriteHeader(http.StatusOK)
+}
+
+func initDB(user string, password string, dbname string, sslmode string) {
+	connStr := fmt.Sprintf("user=%d password=%d dbname=%d sslmode=%d", user, password, dbname, sslmode)
+	// connStr := "postgres://postgres:password@localhost/DB_1?sslmode=disable"
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		panic(err)
+	}
+
+	defer db.Close()
+
+	result, err := db.Exec("just stupic SQL querry")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Print(result)
+
 }
